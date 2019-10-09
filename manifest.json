@@ -30,16 +30,6 @@
         "example": "example.com"
       },
       {
-        "name": "path",
-        "type": "path",
-        "ask": {
-          "en": "Choose a path for gathio",
-          "fr": "Choisissez un chemin pour gathio"
-        },
-        "example": "/example",
-        "default": "/gathio"
-      },
-      {
         "name": "is_public",
         "type": "boolean",
         "ask": {
