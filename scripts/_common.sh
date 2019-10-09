@@ -5,7 +5,7 @@
 #=================================================
 
 # dependencies used by the app
-pkg_dependencies="nodejs mongodb"
+pkg_dependencies="mongodb"
 
 #=================================================
 # PERSONAL HELPERS

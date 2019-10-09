@@ -180,6 +180,9 @@ ynh_system_user_create --username=$app
 # ...
 #=================================================
 
+# Initiate node
+ynh_use_nodejs
+
 # Install npm dependencies
 (cd $final_path && npm install)
 
