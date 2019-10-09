@@ -77,18 +77,18 @@ ynh_app_setting_set --app=$app --key=sendgrid_api_key --value=$sendgrid_api_key
 #=================================================
 # FIND AND OPEN A PORT
 #=================================================
-#ynh_script_progression --message="Configuring firewall..." --time --weight=1
+ynh_script_progression --message="Configuring firewall..." --time --weight=1
 
-#### Use these lines if you have to open a port for the application
-#### `ynh_find_port` will find the first available port starting from the given port.
-#### If you're not using these lines:
-####		- Remove the section "CLOSE A PORT" in the remove script
+### Use these lines if you have to open a port for the application
+### `ynh_find_port` will find the first available port starting from the given port.
+### If you're not using these lines:
+###		- Remove the section "CLOSE A PORT" in the remove script
 
-## Find a free port
-#port=$(ynh_find_port --port=8095)
-## Open this port
-#ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $port
-#ynh_app_setting_set --app=$app --key=port --value=$port
+# Find a free port
+port=$(ynh_find_port --port=8095)
+# Open this port
+ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $port
+ynh_app_setting_set --app=$app --key=port --value=$port
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -251,7 +251,11 @@ ynh_add_systemd_config
 ### `ynh_replace_string` is used to replace a string in a file.
 ### (It's compatible with sed regular expressions syntax)
 
+# Setup Sendgrid API key
 ynh_replace_string --match_string="''" --replace_string="'$sendgrid_api_key'" --target_file="$api_conf_path"
+
+# Setup port in nginx
+ynh_replace_string --match_string="__PORT__" --replace_string="$port" --target_file=$config_file
 
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
