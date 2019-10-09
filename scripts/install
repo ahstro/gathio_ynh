@@ -103,7 +103,11 @@ ynh_script_progression --message="Installing dependencies..." --time --weight=1
 ###		- As well as the section "REINSTALL DEPENDENCIES" in the restore script
 ###		- And the section "UPGRADE DEPENDENCIES" in the upgrade script
 
+ynh_install_nodejs --nodejs_version=10
 ynh_install_app_dependencies $pkg_dependencies
+
+# Initiate node
+ynh_use_nodejs
 
 #=================================================
 # CREATE A MYSQL DATABASE
@@ -179,10 +183,6 @@ ynh_system_user_create --username=$app
 #=================================================
 # ...
 #=================================================
-
-# Initiate node
-ynh_install_nodejs --nodejs_version=10
-ynh_use_nodejs
 
 # Install npm dependencies
 (cd $final_path && npm install)
