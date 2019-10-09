@@ -181,6 +181,7 @@ ynh_system_user_create --username=$app
 #=================================================
 
 # Initiate node
+ynh_install_nodejs --nodejs_version=10
 ynh_use_nodejs
 
 # Install npm dependencies
