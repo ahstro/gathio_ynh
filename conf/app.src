@@ -1,6 +1,6 @@
-SOURCE_URL=url of app's source
-SOURCE_SUM=sha256 checksum
+SOURCE_URL=https://github.com/lowercasename/gathio/archive/master.tar.gz
+SOURCE_SUM=389d868d35a0ff5a1b81229bb7fc09f7e319d9b058412e9842936fbefc6260f8
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
-SOURCE_FILENAME=
+SOURCE_FILENAME=gathio-master.tar.gz
