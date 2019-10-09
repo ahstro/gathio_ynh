@@ -210,7 +210,8 @@ ynh_script_progression --message="Configuring a systemd service..." --time --wei
 ###		- And the section "SETUP SYSTEMD" in the upgrade script
 
 # Create a dedicated systemd config
-# ynh_add_systemd_config
+ynh_replace_string --match_string="__NODEJS_PATH__" --replace_string="$nodejs_path" --target_file="../conf/systemd.service"
+ynh_add_systemd_config
 
 #=================================================
 # SETUP APPLICATION WITH CURL
@@ -311,18 +312,18 @@ yunohost service add $app --log "/var/log/$app/$app.log"
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-#ynh_script_progression --message="Starting a systemd service..." --time --weight=1
+ynh_script_progression --message="Starting a systemd service..." --time --weight=1
 
-#### `ynh_systemd_action` is used to start a systemd service for an app.
-#### Only needed if you have configure a systemd service
-#### If you're not using these lines:
-####		- Remove the section "STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the backup script
-####		- As well as the section "START SYSTEMD SERVICE" in the restore script
-####		- As well as the section"STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the upgrade script
-####		- And the section "STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the change_url script
+### `ynh_systemd_action` is used to start a systemd service for an app.
+### Only needed if you have configure a systemd service
+### If you're not using these lines:
+###		- Remove the section "STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the backup script
+###		- As well as the section "START SYSTEMD SERVICE" in the restore script
+###		- As well as the section"STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the upgrade script
+###		- And the section "STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the change_url script
 
-## Start a systemd service
-#ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+# Start a systemd service
+ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
 
 #=================================================
 # SETUP FAIL2BAN
