@@ -110,9 +110,9 @@ ynh_install_app_dependencies $pkg_dependencies
 ynh_use_nodejs
 
 #=================================================
-# CREATE A MYSQL DATABASE
+# START MONGODB
 #=================================================
-#ynh_script_progression --message="Creating a MySQL database..." --time --weight=1
+ynh_script_progression --message="Starting MongoDB..." --time --weight=1
 
 #### Use these lines if you need a database for the application.
 #### `ynh_mysql_setup_db` will create a database, an associated user and a ramdom password.
@@ -123,9 +123,14 @@ ynh_use_nodejs
 ####		- Remove also the section "REMOVE THE MYSQL DATABASE" in the remove script
 ####		- As well as the section "RESTORE THE MYSQL DATABASE" in the restore script
 
-#db_name=$(ynh_sanitize_dbid --db_name=$app)
+# Start MongoDB
+systemctl enable mongodb
+systemctl start mongodb
+
+# Registering db name
+db_name=$(ynh_sanitize_dbid --db_name=$app)
 #db_user=$db_name
-#ynh_app_setting_set --app=$app --key=db_name --value=$db_name
+ynh_app_setting_set --app=$app --key=db_name --value=$db_name
 #ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
 
 #=================================================
@@ -192,8 +197,10 @@ ynh_system_user_create --username=$app
 
 # Setup config files
 api_conf_path=$final_path/config/api.js
+db_conf_path=$final_path/config/database.js
+
 cp $final_path/config/api-example.js $api_conf_path
-cp $final_path/config/database-example.js $final_path/config/database.js
+cp $final_path/config/database-example.js $db_conf_path
 
 
 #=================================================
@@ -256,6 +263,9 @@ ynh_add_systemd_config
 
 # Setup Sendgrid API key
 ynh_replace_string --match_string="''" --replace_string="'$sendgrid_api_key'" --target_file="$api_conf_path"
+
+# Setup MongoDB
+ynh_replace_string --match_string="mongodb://localhost:27017/gathio" --replace_string="$db_name" --target_file="$db_conf_path"
 
 
 #=================================================
